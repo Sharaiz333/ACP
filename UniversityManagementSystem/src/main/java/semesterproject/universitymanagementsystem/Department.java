@@ -1,14 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package semesterproject.universitymanagementsystem;
 
 public class Department extends University {
     private String deptName;
 
+    
     public Department(String uniName, String deptName) {
-        super(uniName);
+        super(uniName, "Unknown");
         this.deptName = deptName;
     }
 
@@ -20,10 +17,9 @@ public class Department extends University {
         this.deptName = deptName;
     }
 
-
     @Override
     public void displayInfo() {
         super.displayInfo();
-        System.out.println("Department Name: " + deptName);
+        System.out.println("Department: " + deptName);
     }
 }

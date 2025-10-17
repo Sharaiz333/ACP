@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.mycompany.studentmanagement;
-
+package com.mycompany.studentmanagementsystem;
 import java.util.Scanner;
 
 public class StudentManagement {

@@ -2,7 +2,6 @@ package semesterproject.universitymanagementsystem;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class StudentGUI extends JFrame {
 
@@ -11,104 +10,135 @@ public class StudentGUI extends JFrame {
 
     public StudentGUI() {
         setTitle("Student Management");
-        setSize(500, 400);
+        setSize(700, 600);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new Color(240, 240, 240));
 
-        JPanel inputPanel = new JPanel(new GridLayout(7, 2, 5, 5));
+        Font labelFont = new Font("SansSerif", Font.BOLD, 14);
+        Font textFont = new Font("SansSerif", Font.PLAIN, 13);
+        Font buttonFont = new Font("SansSerif", Font.BOLD, 13);
 
-        inputPanel.add(new JLabel("University:"));
+        JPanel inputPanel = new JPanel(new GridLayout(7, 2, 10, 10));
+        inputPanel.setBackground(new Color(224, 235, 255));
+        inputPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        JLabel uniLabel = new JLabel("University:");
+        uniLabel.setFont(labelFont);
+        inputPanel.add(uniLabel);
         universityField = new JTextField();
+        universityField.setFont(textFont);
         inputPanel.add(universityField);
 
-        inputPanel.add(new JLabel("Department:"));
+        JLabel deptLabel = new JLabel("Department:");
+        deptLabel.setFont(labelFont);
+        inputPanel.add(deptLabel);
         departmentField = new JTextField();
+        departmentField.setFont(textFont);
         inputPanel.add(departmentField);
 
-        inputPanel.add(new JLabel("Name:"));
+        JLabel nameLabel = new JLabel("Name:");
+        nameLabel.setFont(labelFont);
+        inputPanel.add(nameLabel);
         nameField = new JTextField();
+        nameField.setFont(textFont);
         inputPanel.add(nameField);
 
-        inputPanel.add(new JLabel("Roll No:"));
+        JLabel rollLabel = new JLabel("Roll No:");
+        rollLabel.setFont(labelFont);
+        inputPanel.add(rollLabel);
         rollField = new JTextField();
+        rollField.setFont(textFont);
         inputPanel.add(rollField);
 
-        inputPanel.add(new JLabel("Semester:"));
+        JLabel semLabel = new JLabel("Semester:");
+        semLabel.setFont(labelFont);
+        inputPanel.add(semLabel);
         semesterField = new JTextField();
+        semesterField.setFont(textFont);
         inputPanel.add(semesterField);
 
-        inputPanel.add(new JLabel("GPA:"));
+        JLabel gpaLabel = new JLabel("GPA:");
+        gpaLabel.setFont(labelFont);
+        inputPanel.add(gpaLabel);
         gpaField = new JTextField();
+        gpaField.setFont(textFont);
         inputPanel.add(gpaField);
 
-        inputPanel.add(new JLabel("CGPA:"));
+        JLabel cgpaLabel = new JLabel("CGPA:");
+        cgpaLabel.setFont(labelFont);
+        inputPanel.add(cgpaLabel);
         cgpaField = new JTextField();
+        cgpaField.setFont(textFont);
         inputPanel.add(cgpaField);
 
         add(inputPanel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.setBackground(new Color(240, 240, 240));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         JButton addButton = new JButton("Add Student");
+        addButton.setFont(buttonFont);
+        addButton.setBackground(new Color(0, 120, 215));
+        addButton.setForeground(Color.WHITE);
+
         JButton viewButton = new JButton("View Students");
+        viewButton.setFont(buttonFont);
+        viewButton.setBackground(new Color(46, 139, 87));
+        viewButton.setForeground(Color.WHITE);
+
         JButton backButton = new JButton("Back");
+        backButton.setFont(buttonFont);
+        backButton.setBackground(new Color(128, 128, 128));
+        backButton.setForeground(Color.WHITE);
 
         buttonPanel.add(addButton);
         buttonPanel.add(viewButton);
         buttonPanel.add(backButton);
-
         add(buttonPanel, BorderLayout.CENTER);
 
         outputArea = new JTextArea(10, 40);
+        outputArea.setFont(textFont);
+        outputArea.setBackground(Color.WHITE);
+        outputArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         add(new JScrollPane(outputArea), BorderLayout.SOUTH);
 
-        addButton.addActionListener(new ActionListener() {
-            @Override
-        public void actionPerformed(ActionEvent e) {
-                String university = universityField.getText();
-                String department = departmentField.getText();
-                String name = nameField.getText();
-                String roll = rollField.getText();
-                String semester = semesterField.getText();
-                String gpa = gpaField.getText();
-                String cgpa = cgpaField.getText();
+        addButton.addActionListener(e -> {
+            String university = universityField.getText();
+            String department = departmentField.getText();
+            String name = nameField.getText();
+            String roll = rollField.getText();
+            String semester = semesterField.getText();
+            String gpa = gpaField.getText();
+            String cgpa = cgpaField.getText();
 
-                outputArea.append("Student Added:\n");
-                outputArea.append("University: " + university + "\n");
-                outputArea.append("Department: " + department + "\n");
-                outputArea.append("Name: " + name + "\n");
-                outputArea.append("Roll No: " + roll + "\n");
-                outputArea.append("Semester: " + semester + "\n");
-                outputArea.append("GPA: " + gpa + " | CGPA: " + cgpa + "\n");
-                outputArea.append("--------------------------------------\n");
+            outputArea.append("Student Added:\n");
+            outputArea.append("University: " + university + "\n");
+            outputArea.append("Department: " + department + "\n");
+            outputArea.append("Name: " + name + "\n");
+            outputArea.append("Roll No: " + roll + "\n");
+            outputArea.append("Semester: " + semester + "\n");
+            outputArea.append("GPA: " + gpa + " | CGPA: " + cgpa + "\n");
+            outputArea.append("--------------------------------------\n");
 
-                JOptionPane.showMessageDialog(null, "Student added successfully!");
-
-                universityField.setText("");
-                departmentField.setText("");
-                nameField.setText("");
-                rollField.setText("");
-                semesterField.setText("");
-                gpaField.setText("");
-                cgpaField.setText("");
-            }
+            JOptionPane.showMessageDialog(null, "Student added successfully!");
+            universityField.setText("");
+            departmentField.setText("");
+            nameField.setText("");
+            rollField.setText("");
+            semesterField.setText("");
+            gpaField.setText("");
+            cgpaField.setText("");
         });
 
-        viewButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Displaying all students (demo only).");
-                outputArea.append("Viewing all students... (In future, fetch from file or list)\n");
-            }
+        viewButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(null, "Displaying all students.");
+            outputArea.append("Viewing all students...\n");
         });
 
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        backButton.addActionListener(e -> dispose());
 
         setVisible(true);
     }

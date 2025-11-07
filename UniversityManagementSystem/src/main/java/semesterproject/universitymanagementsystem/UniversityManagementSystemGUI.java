@@ -2,35 +2,62 @@ package semesterproject.universitymanagementsystem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class UniversityManagementSystemGUI {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainMenuGUI());
-    }
-}
+public class UniversityManagementSystemGUI extends JFrame {
 
-class MainMenuGUI extends JFrame {
-    public MainMenuGUI() {
+    public UniversityManagementSystemGUI() {
         setTitle("University Management System");
-        setSize(400, 300);
+        setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
         setLayout(new BorderLayout());
 
-        JLabel title = new JLabel("University Management System", SwingConstants.CENTER);
-        title.setFont(new Font("Arial", Font.BOLD, 18));
-        add(title, BorderLayout.NORTH);
+        JLabel titleLabel = new JLabel("University Management System", JLabel.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        add(titleLabel, BorderLayout.NORTH);
 
-        JPanel panel = new JPanel(new FlowLayout());
-        JButton studentBtn = new JButton("Student Menu");
-        JButton universityBtn = new JButton("University Menu");
-        JButton exitBtn = new JButton("Exit");
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JButton studentMenuButton = new JButton("Student Menu");
+        JButton universityMenuButton = new JButton("University Menu");
+        JButton exitButton = new JButton("Exit");
 
-        panel.add(studentBtn);
-        panel.add(universityBtn);
-        panel.add(exitBtn);
-        add(panel, BorderLayout.CENTER);
+        buttonPanel.add(studentMenuButton);
+        buttonPanel.add(universityMenuButton);
+        buttonPanel.add(exitButton);
+        add(buttonPanel, BorderLayout.CENTER);
+
+        studentMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Opening Student Menu...");
+                new StudentGUI();
+            }
+        });
+
+        universityMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Opening University Menu...");
+                new UniversityGUI();
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?");
+                if (confirm == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
 
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new UniversityManagementSystemGUI();
     }
 }

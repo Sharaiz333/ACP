@@ -128,7 +128,7 @@ public class StudentGUI extends JFrame {
     Socket socket = new Socket("localhost", 5000);
     PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 
-    pw.println("STUDENT," + university + "," + department + "," + name + "," + roll + "," + semester + "," + gpa + "," + cgpa);
+    pw.println("SAVE_STUDENT," + university + "," + department + "," + name + "," + roll + "," + semester + "," + gpa + "," + cgpa);
 
     pw.close();
     socket.close();
@@ -153,7 +153,7 @@ public class StudentGUI extends JFrame {
         PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        pw.println("LOAD");
+        pw.println("LOAD_STUDENT");
 
         outputArea.append("----- Students From Server -----\n");
 

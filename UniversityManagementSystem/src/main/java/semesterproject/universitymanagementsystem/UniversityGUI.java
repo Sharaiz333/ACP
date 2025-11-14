@@ -114,7 +114,7 @@ public class UniversityGUI extends JFrame {
     Socket socket = new Socket("localhost", 5000);
     PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 
-    pw.println("UNIVERSITY," + id + "," + name + "," + location + "," + email + "," + contact);
+    pw.println("SAVE_UNIVERSITY," + id + "," + name + "," + location + "," + email + "," + contact);
 
     pw.close();
     socket.close();
@@ -138,7 +138,7 @@ public class UniversityGUI extends JFrame {
         PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        pw.println("LOAD");
+        pw.println("LOAD_UNIVERSITY");
 
         outputArea.append("----- Universities From Server -----\n");
 

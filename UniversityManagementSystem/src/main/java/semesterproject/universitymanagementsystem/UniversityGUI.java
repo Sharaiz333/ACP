@@ -5,7 +5,6 @@ import java.awt.*;
 import java.net.*;
 import java.io.*;
 
-
 public class UniversityGUI extends JFrame {
 
     private JTextField idField, nameField, locationField, emailField, contactField;
@@ -78,6 +77,16 @@ public class UniversityGUI extends JFrame {
         viewButton.setBackground(new Color(46, 139, 87));
         viewButton.setForeground(Color.WHITE);
 
+        JButton deleteButton = new JButton("Delete University");
+        deleteButton.setFont(buttonFont);
+        deleteButton.setBackground(new Color(255, 99, 71));
+        deleteButton.setForeground(Color.WHITE);
+
+        JButton editButton = new JButton("Edit University");
+        editButton.setFont(buttonFont);
+        editButton.setBackground(new Color(255, 165, 0));
+        editButton.setForeground(Color.WHITE);
+
         JButton backButton = new JButton("Back");
         backButton.setFont(buttonFont);
         backButton.setBackground(new Color(128, 128, 128));
@@ -85,6 +94,8 @@ public class UniversityGUI extends JFrame {
 
         buttonPanel.add(addButton);
         buttonPanel.add(viewButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(editButton);
         buttonPanel.add(backButton);
         add(buttonPanel, BorderLayout.CENTER);
 
@@ -109,19 +120,18 @@ public class UniversityGUI extends JFrame {
             outputArea.append("Email: " + email + "\n");
             outputArea.append("Contact No: " + contact + "\n");
             outputArea.append("--------------------------------------\n\n");
-            
+
             try {
-    Socket socket = new Socket("localhost", 5000);
-    PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+                Socket socket = new Socket("localhost", 5000);
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 
-    pw.println("SAVE_UNIVERSITY," + id + "," + name + "," + location + "," + email + "," + contact);
+                pw.println("SAVE_UNIVERSITY " + id + "," + name + "," + location + "," + email + "," + contact);
 
-    pw.close();
-    socket.close();
-} catch (Exception ex) {
-    JOptionPane.showMessageDialog(null, "Server not found!");
-}
-
+                pw.close();
+                socket.close();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Server not found!");
+            }
 
             JOptionPane.showMessageDialog(null, "University added successfully!");
 
@@ -133,37 +143,105 @@ public class UniversityGUI extends JFrame {
         });
 
         viewButton.addActionListener(e -> {
-    try {
-        Socket socket = new Socket("localhost", 5000);
-        PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            try {
+                Socket socket = new Socket("localhost", 5000);
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        pw.println("LOAD_UNIVERSITY");
+                pw.println("LOAD_UNIVERSITY");
 
-        outputArea.append("----- Universities From Server -----\n");
+                outputArea.append("----- Universities From Server -----\n");
 
-        String line;
-        while (!(line = br.readLine()).equals("END")) {
-            if (line.equals("NO_DATA")) {
-                JOptionPane.showMessageDialog(null, "No university records on server.");
-                break;
+                String line;
+                while (!(line = br.readLine()).equals("END")) {
+                    if (line.equals("NO_DATA")) {
+                        JOptionPane.showMessageDialog(null, "No university records on server.");
+                        break;
+                    }
+                    outputArea.append(line + "\n");
+                }
+
+                socket.close();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "❌ Cannot connect to server!\nPlease start the server first.",
+                        "Server Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
-            outputArea.append(line + "\n");
-        }
-
-        socket.close();
-
-        } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null,
-                "❌ Cannot connect to server!\nPlease start the server first.",
-                "Server Error",
-                JOptionPane.ERROR_MESSAGE);
-        }
         });
 
+        deleteButton.addActionListener(e -> {
+            String id = idField.getText();
+
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Enter University ID to delete.");
+                return;
+            }
+
+            try {
+                Socket socket = new Socket("localhost", 5000);
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                pw.println("DELETE_UNIVERSITY " + id);
+
+                String response = br.readLine();
+
+                if (response.equals("DELETED")) {
+                    JOptionPane.showMessageDialog(null, "University deleted successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Record not found!");
+                }
+
+                socket.close();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error connecting to server!");
+            }
+        });
+
+        editButton.addActionListener(e -> {
+            String id = idField.getText();
+
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Enter University ID to edit.");
+                return;
+            }
+
+            String newName = nameField.getText();
+            String newLocation = locationField.getText();
+            String newEmail = emailField.getText();
+            String newContact = contactField.getText();
+
+            try {
+                Socket socket = new Socket("localhost", 5000);
+                PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                pw.println("EDIT_UNIVERSITY " + id + "," + newName + "," + newLocation + "," + newEmail + "," + newContact);
+
+                String response = br.readLine();
+
+                if (response.equals("EDITED")) {
+                    JOptionPane.showMessageDialog(null, "University updated successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Record not found!");
+                }
+
+                socket.close();
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error connecting to server!");
+            }
+        });
 
         backButton.addActionListener(e -> dispose());
 
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new UniversityGUI();
     }
 }

@@ -2,6 +2,9 @@ package semesterproject.universitymanagementsystem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.*;
+import java.io.*;
+
 
 public class UniversityGUI extends JFrame {
 
@@ -106,6 +109,19 @@ public class UniversityGUI extends JFrame {
             outputArea.append("Email: " + email + "\n");
             outputArea.append("Contact No: " + contact + "\n");
             outputArea.append("--------------------------------------\n\n");
+            
+            try {
+    Socket socket = new Socket("localhost", 5000);
+    PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+
+    pw.println("UNIVERSITY," + id + "," + name + "," + location + "," + email + "," + contact);
+
+    pw.close();
+    socket.close();
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(null, "Server not found!");
+}
+
 
             JOptionPane.showMessageDialog(null, "University added successfully!");
 

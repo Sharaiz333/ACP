@@ -2,6 +2,8 @@ package semesterproject.universitymanagementsystem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.*;
+import java.io.*;       
 
 public class StudentGUI extends JFrame {
 
@@ -122,6 +124,18 @@ public class StudentGUI extends JFrame {
             outputArea.append("Semester: " + semester + "\n");
             outputArea.append("GPA: " + gpa + " | CGPA: " + cgpa + "\n");
             outputArea.append("--------------------------------------\n");
+            try {
+    Socket socket = new Socket("localhost", 5000);
+    PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+
+    pw.println("STUDENT," + university + "," + department + "," + name + "," + roll + "," + semester + "," + gpa + "," + cgpa);
+
+    pw.close();
+    socket.close();
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(null, "Server not found!");
+}
+
 
             JOptionPane.showMessageDialog(null, "Student added successfully!");
             universityField.setText("");

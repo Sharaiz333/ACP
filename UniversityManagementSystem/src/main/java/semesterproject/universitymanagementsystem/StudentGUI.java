@@ -148,9 +148,33 @@ public class StudentGUI extends JFrame {
         });
 
         viewButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Displaying all students.");
-            outputArea.append("Viewing all students...\n");
-        });
+    try {
+        Socket socket = new Socket("localhost", 5000);
+        PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        pw.println("LOAD");
+
+        outputArea.append("----- Students From Server -----\n");
+
+        String line;
+        while (!(line = br.readLine()).equals("END")) {
+            if (line.equals("NO_DATA")) {
+                JOptionPane.showMessageDialog(null, "No student records on server.");
+                break;
+            }
+            outputArea.append(line + "\n");
+        }
+
+        socket.close();
+
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null,
+                "❌ Error: Cannot connect to server!\nStart server first.",
+                "Connection Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
+});
 
         backButton.addActionListener(e -> dispose());
 

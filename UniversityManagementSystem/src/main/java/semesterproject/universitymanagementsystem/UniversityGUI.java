@@ -133,9 +133,34 @@ public class UniversityGUI extends JFrame {
         });
 
         viewButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Displaying all universities.");
-            outputArea.append("Viewing all universities...\n\n");
+    try {
+        Socket socket = new Socket("localhost", 5000);
+        PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        pw.println("LOAD");
+
+        outputArea.append("----- Universities From Server -----\n");
+
+        String line;
+        while (!(line = br.readLine()).equals("END")) {
+            if (line.equals("NO_DATA")) {
+                JOptionPane.showMessageDialog(null, "No university records on server.");
+                break;
+            }
+            outputArea.append(line + "\n");
+        }
+
+        socket.close();
+
+        } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null,
+                "❌ Cannot connect to server!\nPlease start the server first.",
+                "Server Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
         });
+
 
         backButton.addActionListener(e -> dispose());
 

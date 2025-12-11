@@ -1,5 +1,6 @@
 semesterproject\universitymanagementsystem\Department.class
 semesterproject\universitymanagementsystem\UniversityManagementSystem.class
+semesterproject\universitymanagementsystem\DBManager.class
 semesterproject\universitymanagementsystem\Displayable.class
 semesterproject\universitymanagementsystem\UniversityManagementSystemGUI.class
 semesterproject\universitymanagementsystem\Student.class

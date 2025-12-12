@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package semesterproject.universitymanagementsystem;
 
 import java.sql.*;
@@ -19,8 +15,6 @@ public class DBManager {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
-
-    
     public static void saveUniversity(University u) throws SQLException {
         String sql = "INSERT INTO University (uniID, uniName, location, email, contactNo) VALUES (?, ?, ?, ?, ?) " +
                      "ON DUPLICATE KEY UPDATE uniName=?, location=?, email=?, contactNo=?";

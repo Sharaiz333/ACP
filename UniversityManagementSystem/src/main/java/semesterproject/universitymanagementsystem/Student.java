@@ -11,7 +11,6 @@ public class Student extends Department {
     private static final List<Student> students = new ArrayList<>();
     private static final String FILE_NAME = "students.txt";
 
-    // ✅ Updated constructor to match new University structure
     public Student(String uniID, String uniName, String location, String email, String contactNo,
                    String deptName, String name, int rollNo) {
         super(uniID, uniName, location, email, contactNo, deptName);
@@ -165,13 +164,13 @@ public class Student extends Department {
 
         Student s = findStudent(roll);
         if (s == null) {
-            System.out.println("❌ Student not found!");
+            System.out.println("Student not found!");
             return;
         }
 
         students.remove(s);
         saveToFile();
-        System.out.println("✅ Student deleted successfully!");
+        System.out.println("Student deleted successfully!");
     }
 
     private static Student findStudent(int roll) {
